@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "timer"
+version = "0.1.0"
+description = "Small timer app in PyQt5"
+authors = ["David A"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+pyqt5 = "^5.14.1"
+tomlkit = "^0.5.8"
+
+[tool.poetry.dev-dependencies]
+fbs = "^0.8.6"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

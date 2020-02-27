@@ -1,0 +1,9 @@
+proj_names = ["New Project", "Other project"]
+
+database = "worklog.db"
+[project]
+name = "qt_timer"
+description = "My timer for personal use, ported to PyQt5"
+version = "0.1.0"
+updated = 2020-02-26
+author = "David A"
