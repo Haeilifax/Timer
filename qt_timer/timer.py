@@ -51,7 +51,6 @@ class MainWindow(QMainWindow):
         self.proj_list.setDuplicatesEnabled(False)
         self.project_name = self.proj_list.currentText()
         self.proj_list.currentIndexChanged.connect(self.set_project_name)
-        self.proj_list.changeEvent
 
         proj_layout = QHBoxLayout()
         proj_layout.addWidget(self.proj_list)
@@ -143,12 +142,12 @@ class MainWindow(QMainWindow):
                 p_id = p_id[0]
             else:
                 proj_sql = ("INSERT INTO projects(project_name) "
-                        +"VALUES (:project_name);")
+                            +"VALUES (:project_name);")
                 proj_values = {"project_name":self.project_name}
                 cur.execute(proj_sql, proj_values)
                 p_id = cur.lastrowid
             record_sql = ("INSERT INTO records(p_id, date, time_worked, comments) "
-                        +"VALUES (:p_id, :date, :time_worked, :comments);")
+                          +"VALUES (:p_id, :date, :time_worked, :comments);")
             record_values = {"p_id" : p_id,
                             "date" : datetime.date.isoformat(self.start_time),
                             "time_worked" : str(self.elapsed_time),
