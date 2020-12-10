@@ -8,12 +8,13 @@ import tomlkit
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QLCDNumber, QMenuBar, QAction, QFileDialog, QLabel, QComboBox
 from PyQt5.QtCore import QTimer
 
-class Db_Label(QLabel):
+class DbLabel(QLabel):
+    """Displays absolute version of db_path if it exists, else warning"""
     def setText(self, db_path):
         if (abs_db_path := Path(db_path).resolve()).is_file():
-            super(Db_Label, self).setText(str(abs_db_path))
+            super().setText(str(abs_db_path))
         else:
-            super(Db_Label, self).setText("Database not found")
+            super().setText("Database not found")
 
 
 
@@ -58,7 +59,7 @@ class MainWindow(QMainWindow):
         self.db_btn = QPushButton("Choose Database...")
         self.db_btn.pressed.connect(self.browse_db)
 
-        self.db_label = Db_Label()
+        self.db_label = DbLabel()
         self.db_label.setText(Path(self.db))
 
         db_layout = QHBoxLayout()
