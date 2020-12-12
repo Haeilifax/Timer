@@ -9,6 +9,7 @@ import tomlkit
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QLCDNumber, QMenuBar, QAction, QFileDialog, QLabel, QComboBox
 from PyQt5.QtCore import QTimer
 
+
 class DbLabel(QLabel):
     """Displays absolute version of db_path if it exists, else warning"""
     def setText(self, db_path):
@@ -16,7 +17,6 @@ class DbLabel(QLabel):
             super().setText(str(abs_db_path))
         else:
             super().setText("Database not found")
-
 
 
 class MainWindow(QMainWindow):
@@ -162,7 +162,7 @@ class MainWindow(QMainWindow):
             record_sql = ("INSERT INTO records(p_id, date, time_worked, comments) "
                           +"VALUES (:p_id, :date, :time_worked, :comments);")
             record_values = {"p_id" : p_id,
-                            "date" : datetime.date.isoformat(self.start_time),
+                            "date" : self.start_time.strftime("%Y-%m-%d"),
                             "time_worked" : str(self.elapsed_time),
                             "comments" : comments}
             cur.execute(record_sql, record_values)
