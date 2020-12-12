@@ -201,6 +201,7 @@ class MainWindow(QMainWindow):
         self.db = Path(self.config.get("database", None))
 
     def save_settings(self):
+        """Save configuration details (db path and projects known)"""
         self.config["database"] = str(self.db)
         self.config["proj_names"] = self.def_proj_names
         print("saving ", tomlkit.dumps(self.config))
