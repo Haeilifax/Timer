@@ -1,3 +1,4 @@
+"""Basic timer application for tracking progress on multiple projects"""
 import datetime
 import sqlite3
 import sys
@@ -94,6 +95,7 @@ class MainWindow(QMainWindow):
         self.tick_timer = QTimer()
 
     def start(self):
+        """Starts timer"""
         print("Start pressed")
         self.start_btn.setEnabled(False)
         self.pause_btn.setEnabled(True)
@@ -103,6 +105,7 @@ class MainWindow(QMainWindow):
 
 
     def pause(self):
+        """Pauses timer"""
         print("Pause pressed")
         self.pause_btn.setEnabled(False)
         self.start_btn.setEnabled(True)
@@ -110,6 +113,7 @@ class MainWindow(QMainWindow):
 
 
     def end(self):
+        """Ends timer and saves to db"""
         print("End pressed")
         self.end_btn.setEnabled(False)
         self.pause_btn.setEnabled(False)
@@ -120,6 +124,11 @@ class MainWindow(QMainWindow):
         self.pause_time = datetime.timedelta(0)
 
     def set_project_name(self, c_box_index):
+        """Sets project name and saves if not already saved
+
+        Sets project name to value in proj_list at index c_box_index, and adds
+        it to the list of defined project names if not already there
+        """
         self.project_name = self.proj_list.itemText(c_box_index)
         if self.project_name not in self.def_proj_names:
             self.def_proj_names.insert(c_box_index, self.project_name)
@@ -127,6 +136,10 @@ class MainWindow(QMainWindow):
 
 
     def log_time(self, comments = ""):
+        """Logs time to given database
+
+        Logs time to given database, adding new project names where necessary.
+        """
         print(self.db)
         if self.db:
             conn = sqlite3.connect(self.db)
@@ -174,11 +187,17 @@ class MainWindow(QMainWindow):
 
 
     def browse_db(self):
+        """Browse for db"""
         self.db, _ = QFileDialog.getOpenFileName(self,"Choose a Database...", "","Sqlite Database Files (*.db)")
         self.db_label.setText(self.db)
         self.save_settings()
 
     def configure_settings(self):
+        """Read in settings and state from config.toml
+
+        Read settings and state from config.toml, located in same directory.
+        Get project names and database used.
+        """
         config_path = Path("config.toml")
         config_text = config_path.read_text()
         self.config = tomlkit.loads(config_text)
