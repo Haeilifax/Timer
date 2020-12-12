@@ -22,6 +22,7 @@ class DbLabel(QLabel):
 class MainWindow(QMainWindow):
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
+        self.start_time = datetime.datetime.now()
 
 
         self.configure_settings()
@@ -68,8 +69,7 @@ class MainWindow(QMainWindow):
         db_layout.addWidget(self.db_btn)
 
         self.timer_display = QLabel()
-        self.elapsed_time = datetime.timedelta(0)
-        self.timer_display.setText(str(self.elapsed_time))
+        self.timer_display.setText('0')
         self.timing = False
 
 
@@ -120,7 +120,6 @@ class MainWindow(QMainWindow):
         self.start_btn.setEnabled(True)
         self.timing = False
         self.log_time()
-        self.elapsed_time = datetime.timedelta(0)
         self.pause_time = datetime.timedelta(0)
 
     def set_project_name(self, c_box_index):
@@ -179,9 +178,6 @@ class MainWindow(QMainWindow):
 
     def update_timer(self):
         if self.timing:
-            self.elapsed_time = (datetime.datetime.now()
-                                 - self.start_time
-                                 + self.pause_time)
             self.timer_display.setText(str(self.elapsed_time))
             self.tick_timer.singleShot(10, self.update_timer)
 
@@ -210,6 +206,14 @@ class MainWindow(QMainWindow):
         print("saving ", tomlkit.dumps(self.config))
         with open("config.toml", "w") as f:
             f.write(tomlkit.dumps(self.config))
+
+    @property
+    def elapsed_time(self):
+        """Time elapsed since start_time, accounting for time paused"""
+        _elapsed_time = (datetime.datetime.now()
+                        - self.start_time
+                        + self.pause_time)
+        return _elapsed_time
 
 
 
